@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "972858573149",
+    "project_id": "blockify---internet-blocker",
+    "storage_bucket": "blockify---internet-blocker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972858573149:android:0a2514f47638e2a8b868b4",
+        "android_client_info": {
+          "package_name": "com.chargingwatts.internetblocker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSQ7G_N1FezhgfnGHck1RqTkR6M_83U3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

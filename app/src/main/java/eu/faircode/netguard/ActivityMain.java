@@ -73,6 +73,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.util.List;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -114,6 +119,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
+        MobileAds.initialize(
+                this
+        );
         Util.logExtras(getIntent());
 
         // Check minimum Android version
@@ -345,19 +353,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        final LinearLayout llFairEmail = findViewById(R.id.llFairEmail);
-        TextView tvFairEmail = findViewById(R.id.tvFairEmail);
-        tvFairEmail.setMovementMethod(LinkMovementMethod.getInstance());
-        Button btnFairEmail = findViewById(R.id.btnFairEmail);
-        boolean hintFairEmail = prefs.getBoolean("hint_fairemail", true);
-        llFairEmail.setVisibility(hintFairEmail ? View.VISIBLE : View.GONE);
-        btnFairEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                prefs.edit().putBoolean("hint_fairemail", false).apply();
-                llFairEmail.setVisibility(View.GONE);
-            }
-        });
 
         showHints();
 
@@ -816,9 +811,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         if (!Util.hasValidFingerprint(this) || getIntentInvite(this).resolveActivity(pm) == null)
             menu.removeItem(R.id.menu_invite);
-
-        if (getIntentSupport().resolveActivity(getPackageManager()) == null)
-            menu.removeItem(R.id.menu_support);
+//
+//        if (getIntentSupport().resolveActivity(getPackageManager()) == null)
+//            menu.removeItem(R.id.menu_support);
 
         menu.findItem(R.id.menu_apps).setEnabled(getIntentApps(this).resolveActivity(pm) != null);
 
@@ -929,9 +924,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 menu_legend();
                 return true;
 
-            case R.id.menu_support:
-                startActivity(getIntentSupport());
-                return true;
+//            case R.id.menu_support:
+//                startActivity(getIntentSupport());
+//                return true;
 
             case R.id.menu_about:
                 menu_about();
@@ -980,17 +975,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Hint system applications
         final LinearLayout llSystem = findViewById(R.id.llSystem);
-        Button btnSystem = findViewById(R.id.btnSystem);
-        boolean system = prefs.getBoolean("manage_system", false);
-        boolean hintSystem = prefs.getBoolean("hint_system", true);
-        llSystem.setVisibility(!system && hintSystem ? View.VISIBLE : View.GONE);
-        btnSystem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                prefs.edit().putBoolean("hint_system", false).apply();
-                llSystem.setVisibility(View.GONE);
-            }
-        });
+        AdRequest adRequest  = new  AdRequest.Builder().build();
+        AdView mAdView = findViewById(R.id.adView);
+
+        mAdView.loadAd(adRequest);
+
     }
 
     private void checkExtras(Intent intent) {
